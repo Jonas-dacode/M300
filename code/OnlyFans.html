@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OnlyFans – Der Ventilatoren-Webshop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5rem;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      color: #9ca3af;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .product {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .product img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .product-details {
+      padding: 1rem;
+    }
+    .product-details h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .price {
+      color: #059669;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      background-color: #059669;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 0 1rem 1rem;
+      border-radius: 8px;
+    }
+    .btn:hover {
+      background-color: #047857;
+    }
+    #cart {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+    #cart-items li {
+      margin-bottom: 0.5rem;
+    }
+    .remove-btn {
+      background: transparent;
+      color: #dc2626;
+      border: none;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+    footer {
+      background: #1f2937;
+      color: #ccc;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+    }
+    #checkout {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #checkout:hover {
+      background: #2563eb;
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OnlyFans</h1>
+    <p>Der Webshop nur für echte Ventilator-Fans ✨</p>
+  </header>
+
+  <main class="container">
+    <section class="products">
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1596720426672-4d1efb757e7b" alt="Tischventilator Classic">
+        <div class="product-details">
+          <h2>Tischventilator Classic</h2>
+          <p class="price">CHF 29.90</p>
+          <button class="btn" onclick="addToCart('Tischventilator Classic', 29.90)">In den Warenkorb</button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1618213831542-cd9dfae88af4" alt="Standventilator Turbo">
+        <div class="product-details">
+          <h2>Standventilator Turbo</h2>
+          <p class="price">CHF 59.90</p>
+          <button class="btn" onclick="addToCart('Standventilator Turbo', 59.90)">In den Warenkorb</button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1563770652949-1c40710ed0c3" alt="Mini USB Ventilator">
+        <div class="product-details">
+          <h2>Mini-USB Ventilator</h2>
+          <p class="price">CHF 14.90</p>
+          <button class="btn" onclick="addToCart('Mini-USB Ventilator', 14.90)">In den Warenkorb</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="cart">
+      <h2>🛒 Dein Warenkorb</h2>
+      <ul id="cart-items"></ul>
+      <p><strong>Gesamt: CHF <span id="cart-total">0.00</span></strong></p>
+      <button id="checkout">Zur Kasse</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 OnlyFans – Frischer Wind made in Switzerland</p>
+  </footer>
+
+  <script>
+    const cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+      updateCart();
+      alert(`${name} wurde zum Warenkorb hinzugefügt.`);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      cartItems.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `${item.name} (x${item.quantity}) – CHF ${(item.price * item.quantity).toFixed(2)} <button class='remove-btn' onclick='removeFromCart(${index})'>Entfernen</button>`;
+        cartItems.appendChild(li);
+        total += item.price * item.quantity;
+      });
+
+      cartTotal.textContent = total.toFixed(2);
+    }
+
+    document.getElementById('checkout').addEventListener('click', () => {
+      alert('Vielen Dank für deinen Einkauf!');
+    });
+  </script>
+</body>
+</html>
