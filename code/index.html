@@ -6,6 +6,20 @@
   <title>OnlyFans – Der Ventilatoren-Webshop</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-color: #f0f2f5;
+      --text-color: #333;
+      --card-bg: white;
+      --header-bg: #1f2937;
+      --primary: #059669;
+      --primary-hover: #047857;
+    }
+    body.dark-mode {
+      --bg-color: #1e1e1e;
+      --text-color: #f3f3f3;
+      --card-bg: #2a2a2a;
+      --header-bg: #111827;
+    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,18 +27,16 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
     }
     header {
-      background: #1f2937;
+      background: var(--header-bg);
       color: white;
       padding: 2rem 1rem;
       text-align: center;
-    }
-    header h1 {
-      font-size: 2.5rem;
     }
     header img {
       width: 180px;
@@ -35,6 +47,17 @@
       margin-top: 0.5rem;
       font-size: 1.1rem;
       color: #9ca3af;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
     }
     .container {
       max-width: 1200px;
@@ -47,12 +70,16 @@
       gap: 2rem;
     }
     .product {
-      background: white;
+      background: var(--card-bg);
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .product:hover {
+      transform: translateY(-4px);
     }
     .product img {
       width: 100%;
@@ -67,12 +94,12 @@
       margin-bottom: 0.5rem;
     }
     .price {
-      color: #059669;
+      color: var(--primary);
       font-weight: 600;
       margin-bottom: 1rem;
     }
     .btn {
-      background-color: #059669;
+      background-color: var(--primary);
       color: white;
       border: none;
       padding: 0.75rem;
@@ -83,10 +110,10 @@
       border-radius: 8px;
     }
     .btn:hover {
-      background-color: #047857;
+      background-color: var(--primary-hover);
     }
     #cart {
-      background: white;
+      background: var(--card-bg);
       padding: 1.5rem;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -103,7 +130,7 @@
       cursor: pointer;
     }
     footer {
-      background: #1f2937;
+      background: var(--header-bg);
       color: #ccc;
       text-align: center;
       padding: 2rem 1rem;
@@ -123,15 +150,15 @@
       background: #2563eb;
     }
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 2rem;
+      header img {
+        width: 140px;
       }
     }
   </style>
 </head>
 <body>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
   <header>
-    <h1>OnlyFans</h1>
     <img src="logo.png" alt="OnlyFans Logo" />
     <p>Der Webshop nur für echte Ventilator-Fans ✨</p>
   </header>
@@ -179,7 +206,11 @@
   </footer>
 
   <script>
-    const cart = [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
 
     function addToCart(name, price) {
       const existing = cart.find(item => item.name === name);
@@ -189,12 +220,22 @@
         cart.push({ name, price, quantity: 1 });
       }
       updateCart();
-      alert(`${name} wurde zum Warenkorb hinzugefügt.`);
+      saveCart();
     }
 
     function removeFromCart(index) {
       cart.splice(index, 1);
       updateCart();
+      saveCart();
+    }
+
+    function changeQuantity(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      updateCart();
+      saveCart();
     }
 
     function updateCart() {
@@ -205,7 +246,10 @@
 
       cart.forEach((item, index) => {
         const li = document.createElement('li');
-        li.innerHTML = `${item.name} (x${item.quantity}) – CHF ${(item.price * item.quantity).toFixed(2)} <button class='remove-btn' onclick='removeFromCart(${index})'>Entfernen</button>`;
+        li.innerHTML = `${item.name} (CHF ${item.price.toFixed(2)} x ${item.quantity}) = CHF ${(item.price * item.quantity).toFixed(2)} 
+          <button onclick="changeQuantity(${index}, 1)">+</button>
+          <button onclick="changeQuantity(${index}, -1)">−</button>
+          <button class='remove-btn' onclick='removeFromCart(${index})'>Entfernen</button>`;
         cartItems.appendChild(li);
         total += item.price * item.quantity;
       });
@@ -216,6 +260,12 @@
     document.getElementById('checkout').addEventListener('click', () => {
       alert('Vielen Dank für deinen Einkauf!');
     });
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    updateCart();
   </script>
 </body>
 </html>
