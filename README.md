@@ -4,6 +4,8 @@
 
 Ziel ist es, eine öffentlich erreichbare Webseite mit automatisiertem Deployment, täglichem Backup und aktivem Monitoring bereitzustellen. Dies kosteneffizient, wartbar und sicher.
 
+Die Webseite ist über [Diesen Link](https://red-glacier-049295f03.1.azurestaticapps.net/) erreichbar.
+
 ---
 
 ## Projektziele
@@ -36,8 +38,12 @@ Ziel ist es, eine öffentlich erreichbare Webseite mit automatisiertem Deploymen
 
 - `/code/` – Webseitenquelle (`index.html`, CSS, JS)
 - `/docs/` – Architekturdiagramme, Netzwerklayout, Sicherheitskonzept
-- `.github/workflows/` – Automatisiertes Deployment via GitHub Actions
 - `README.md` – Projekteinführung, technische Umsetzung und Bewertung
+
+Erweiterungen:
+```
+`.github/workflows/` – Automatisiertes Deployment via GitHub Actions 
+```
 
 ---
 
