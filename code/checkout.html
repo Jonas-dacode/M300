@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout – OnlyFans</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f9fafb;
+      color: #333;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 1rem;
+      background: #059669;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #047857;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zahlung abschliessen</h1>
+  <form onsubmit="event.preventDefault(); alert('Zahlung erfolgreich!');">
+    <label>Karteninhaber</label>
+    <input type="text" required>
+
+    <label>Kreditkartennummer</label>
+    <input type="text" inputmode="numeric" pattern="[0-9\\s]{13,19}" required>
+
+    <label>Ablaufdatum (MM/YY)</label>
+    <input type="text" placeholder="MM/YY" required>
+
+    <label>CVC</label>
+    <input type="text" required>
+
+    <button type="submit">Jetzt bezahlen</button>
+  </form>
+</body>
+</html>
