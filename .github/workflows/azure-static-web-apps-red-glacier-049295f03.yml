@@ -2,44 +2,38 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+    types: [ opened, synchronize, reopened, closed ]
+    branches: [ main ]
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.event_name == 'push' ||
+        (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
         with:
           submodules: false
           lfs: false
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_RED_GLACIER_049295F03 }}
+          azure_static_web_apps_api_token: ${{ secrets.a35105c8592032d04a9f36c7b076255f1724aaee4f4285e2dd91f0564b3aff4b02-6a66ff67-b559-4149-87ab-b6c9b1aca10200306220038d6803}}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### RICHTIGE KONFIGURATION HIER: ######
           app_location: "code"
-          output_location: ""       # <-- NICHT "."! LEER lassen!
-          api_location: ""          # keine API
-          ###### ENDE ######
+          api_location: ""
+          # ⬅️ Kein output_location hier!
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
-    name: Close Pull Request Job
     steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
+      - uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_RED_GLACIER_049295F03 }}
+          azure_static_web_apps_api_token: ${{ secrets.a35105c8592032d04a9f36c7b076255f1724aaee4f4285e2dd91f0564b3aff4b02-6a66ff67-b559-4149-87ab-b6c9b1aca10200306220038d6803}}
           action: "close"
