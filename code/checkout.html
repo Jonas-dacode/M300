@@ -83,12 +83,11 @@
       const formData = new FormData(this);
       const data = {};
       formData.forEach((value, key) => data[key] = value);
-      data["id"] = 0; // WICHTIG: für Azure Static Web Apps DB API erforderlich
 
       console.log("Wird gesendet an Azure:", JSON.stringify(data));
 
       try {
-        const res = await fetch('/data-api/mydb/Orders', {
+        const res = await fetch('/data-api/mydb/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
