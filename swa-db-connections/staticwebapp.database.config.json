@@ -7,7 +7,7 @@
         "type": "sql"
       },
       "entities": {
-        "Orders": {
+        "orders": {
           "source": "Orders"
         }
       },
