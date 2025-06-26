@@ -1,13 +1,13 @@
 {
   "connections": {
-    "myDbConnection": {
+    "mydb": {
       "databaseType": "mssql",
       "connectionStringSetting": "AZURE_SQL_CONNECTION_STRING",
       "dataSource": {
         "type": "sql"
       },
       "rest": true,
-      "graphql": true
+      "graphql": false
     }
   }
 }

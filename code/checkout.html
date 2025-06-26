@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout – Lieferdetails</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – Lieferdetails</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -48,51 +48,60 @@
     button:hover {
       background-color: #047857;
     }
-</style>
+  </style>
 </head>
 <body>
- 
+
   <h1>Lieferdetails eingeben</h1>
- 
+
   <form id="checkout-form">
-<label for="fullname">Vollständiger Name</label>
-<input type="text" id="fullname" name="fullname" required>
- 
+    <label for="fullname">Vollständiger Name</label>
+    <input type="text" id="fullname" name="fullname" required>
+
     <label for="address">Lieferadresse</label>
-<input type="text" id="address" name="address" required>
- 
+    <input type="text" id="address" name="address" required>
+
     <label for="zip">Postleitzahl</label>
-<input type="text" id="zip" name="zip" required>
- 
+    <input type="text" id="zip" name="zip" required>
+
     <label for="city">Ort</label>
-<input type="text" id="city" name="city" required>
- 
+    <input type="text" id="city" name="city" required>
+
     <label for="email">E-Mail-Adresse</label>
-<input type="email" id="email" name="email" required>
- 
+    <input type="email" id="email" name="email" required>
+
     <label for="notes">Zusätzliche Hinweise (optional)</label>
-<textarea id="notes" name="notes" rows="4"></textarea>
- 
+    <textarea id="notes" name="notes" rows="4"></textarea>
+
     <button type="submit">Bestellung abschicken</button>
-</form>
- 
+  </form>
+
   <script>
-    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    document.getElementById('checkout-form').addEventListener('submit', async function(e) {
       e.preventDefault();
- 
-      // Daten auslesen
+
       const formData = new FormData(this);
       const data = {};
       formData.forEach((value, key) => data[key] = value);
- 
-      // Für Demo: zeige Bestätigung und console.log
-      alert('Vielen Dank! Deine Bestellung wurde aufgenommen.');
-      console.log('Bestelldaten:', data);
- 
-      // Hier könntest du die Daten an deinen Server senden, z. B. via fetch
-      // fetch('/api/order', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
+
+      try {
+        const res = await fetch('/data-api/mydb/Orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          alert('Vielen Dank! Deine Bestellung wurde erfolgreich gespeichert.');
+        } else {
+          alert('Fehler beim Speichern: ' + (await res.text()));
+        }
+      } catch (error) {
+        console.error('Netzwerkfehler:', error);
+        alert('Verbindungsfehler beim Speichern der Bestellung.');
+      }
     });
-</script>
- 
+  </script>
+
 </body>
 </html>
