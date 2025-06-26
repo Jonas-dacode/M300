@@ -1,77 +1,108 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bestellung abschicken</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – Lieferdetails</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    form {
+      max-width: 600px;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #059669;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #047857;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Checkout</h1>
-  <form id="orderForm">
-    <p>
-      <label>Vollständiger Name:<br>
-        <input type="text" id="fullname" name="fullname" required>
-      </label>
-    </p>
-    <p>
-      <label>Adresse:<br>
-        <input type="text" id="address" name="address" required>
-      </label>
-    </p>
-    <p>
-      <label>PLZ:<br>
-        <input type="text" id="zip" name="zip" required>
-      </label>
-    </p>
-    <p>
-      <label>Stadt:<br>
-        <input type="text" id="city" name="city" required>
-      </label>
-    </p>
-    <p>
-      <label>E-Mail:<br>
-        <input type="email" id="email" name="email" required>
-      </label>
-    </p>
-    <p>
-      <label>Notizen zur Bestellung:<br>
-        <textarea id="notes" name="notes"></textarea>
-      </label>
-    </p>
-    <button type="submit">Bestellung absenden</button>
+  <h1>Lieferdetails eingeben</h1>
+
+  <form id="checkout-form">
+    <label for="fullname">Vollständiger Name</label>
+    <input type="text" id="fullname" name="fullname" required>
+
+    <label for="address">Lieferadresse</label>
+    <input type="text" id="address" name="address" required>
+
+    <label for="zip">Postleitzahl</label>
+    <input type="text" id="zip" name="zip" required>
+
+    <label for="city">Ort</label>
+    <input type="text" id="city" name="city" required>
+
+    <label for="email">E-Mail-Adresse</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="notes">Zusätzliche Hinweise (optional)</label>
+    <textarea id="notes" name="notes" rows="4"></textarea>
+
+    <button type="submit">Bestellung abschicken</button>
   </form>
 
   <script>
-    const form = document.getElementById('orderForm');
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault(); // Standard-Formularabschickung unterbinden
+    document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-      // Eingegebene Werte aus den Feldern auslesen
-      const data = {
-        fullname: document.getElementById('fullname').value,
-        address: document.getElementById('address').value,
-        zip: document.getElementById('zip').value,
-        city: document.getElementById('city').value,
-        email: document.getElementById('email').value,
-        notes: document.getElementById('notes').value
-      };
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      console.log("Wird gesendet an Azure:", JSON.stringify(data));
 
       try {
-        const response = await fetch('/data-api/mydb/orders', {
+        const res = await fetch('/data-api/mydb/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
-        if (!response.ok) {
-          throw new Error(`Fehlerhafte Antwort vom Server: ${response.status} ${response.statusText}`);
+
+        const responseText = await res.text();
+
+        if (!res.ok) {
+          throw new Error(`Fehler beim Speichern:\nStatus: ${res.status} ${res.statusText}\nAntwort: ${responseText}`);
         }
-        const result = await response.json();
-        console.log('Bestellung erfolgreich übertragen. Server-Antwort:', result);
-        // TODO: hier ggf. dem Nutzer eine Bestätigungsnachricht anzeigen
+
+        alert('Vielen Dank! Deine Bestellung wurde erfolgreich gespeichert.');
       } catch (error) {
-        console.error('Fehler beim Übermitteln der Bestellung:', error);
-        // TODO: hier ggf. Fehlermeldung anzeigen
+        console.error(error);
+        alert(error.message);
       }
     });
   </script>
