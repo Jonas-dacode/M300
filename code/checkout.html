@@ -84,6 +84,8 @@
       const data = {};
       formData.forEach((value, key) => data[key] = value);
 
+      console.log('Formulardaten:', data); // Debug-Ausgabe
+
       try {
         const res = await fetch('/data-api/mydb/Orders', {
           method: 'POST',
@@ -91,14 +93,16 @@
           body: JSON.stringify(data)
         });
 
-        if (res.ok) {
-          alert('Vielen Dank! Deine Bestellung wurde erfolgreich gespeichert.');
-        } else {
-          alert('Fehler beim Speichern: ' + (await res.text()));
+        const responseText = await res.text();
+
+        if (!res.ok) {
+          throw new Error(`Fehler beim Speichern:\nStatus: ${res.status} ${res.statusText}\nAntwort: ${responseText}`);
         }
+
+        alert('Vielen Dank! Deine Bestellung wurde erfolgreich gespeichert.');
       } catch (error) {
-        console.error('Netzwerkfehler:', error);
-        alert('Verbindungsfehler beim Speichern der Bestellung.');
+        console.error(error);
+        alert(error.message);
       }
     });
   </script>
