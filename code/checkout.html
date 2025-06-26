@@ -84,7 +84,7 @@
       const data = {};
       formData.forEach((value, key) => data[key] = value);
 
-      console.log('Formulardaten:', data); // Debug-Ausgabe
+      console.log("Wird gesendet an Azure:", JSON.stringify(data));
 
       try {
         const res = await fetch('/data-api/mydb/Orders', {
