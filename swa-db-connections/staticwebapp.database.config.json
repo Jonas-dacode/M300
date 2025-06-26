@@ -6,6 +6,11 @@
       "dataSource": {
         "type": "sql"
       },
+      "entities": {
+        "Orders": {
+          "source": "Orders"
+        }
+      },
       "rest": true,
       "graphql": false
     }
