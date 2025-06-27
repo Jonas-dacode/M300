@@ -40,6 +40,21 @@ Die Webseite ist über [Diesen Link](https://red-glacier-049295f03.1.azurestatic
 - `/docs/` – Architekturdiagramme, Netzwerklayout, Sicherheitskonzept
 - `README.md` – Projekteinführung, technische Umsetzung und Bewertung
 
+
+---
+## Hauptkomponenten des logischen Netzwerks
+
+**Azure Static Web App** Hostet die statische Webanwendung (HTML, CSS, JavaScript und optional serverlose APIs). Sie stellt die Website für Nutzer bereit und ist das zentraleElement der Architektur.
+
+**Azure SQL Database (Backups)**  Dient zur Speicherung von Inhalten der statischen Website
+
+**Azure Monitor** In Form von Azure Monitor werden Anfragen, Performance, Fehler -Daten monitored und ab bestimmten Grenzwerten medlungen per mail verschickt. 
+
+**GitHub Actions** 
+
+
+
+
 Erweiterungen:
 ```
 `.github/workflows/` – Automatisiertes Deployment via GitHub Actions 
