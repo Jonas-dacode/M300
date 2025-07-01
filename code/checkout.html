@@ -97,7 +97,7 @@
 
         if (!res.ok) {
           console.log (res.status)
-          console.log (${responseText})
+          console.log ({responseText})
           throw new Error(`Fehler beim Speichern:\nStatus: ${res.status} ${res.statusText}\nAntwort: ${responseText}`);
         }
 
