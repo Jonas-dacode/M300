@@ -87,7 +87,7 @@
       console.log("Wird gesendet an Azure:", JSON.stringify(data));
 
       try {
-        const res = await fetch('/data-api/mydb/orders', {
+        const res = await put('/data-api/mydb/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
