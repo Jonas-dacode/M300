@@ -87,7 +87,7 @@
       console.log("Wird gesendet an Azure:", JSON.stringify(data));
 
       try {
-        const res = await post('/data-api/mydb/orders', {
+        const res = await fetch('/data-api/mydb/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -96,6 +96,8 @@
         const responseText = await res.text();
 
         if (!res.ok) {
+          console.log (res.status)
+          console.log (${responseText})
           throw new Error(`Fehler beim Speichern:\nStatus: ${res.status} ${res.statusText}\nAntwort: ${responseText}`);
         }
 
