@@ -8,7 +8,7 @@
       },
       "entities": {
         "orders": {
-          "source": "Orders"
+          "source": "orders"
         }
       },
       "rest": true,
