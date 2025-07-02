@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",      // kein Azure-Auth erforderlich (da öffentlich aufrufbar)
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [ "post" ],
+      "route": "saveOrder"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ]
+}

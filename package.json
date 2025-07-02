@@ -1,0 +1,9 @@
+{
+  "name": "onlyfans-shop",
+  "version": "1.0.0",
+  "description": "Ventilatoren-Shop mit Azure Static Web Apps und Cosmos DB",
+  "main": "index.js",
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0"
+  }
+}
