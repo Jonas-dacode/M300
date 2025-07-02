@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "authLevel": "anonymous",      // kein Azure-Auth erforderlich (da öffentlich aufrufbar)
+      "authLevel": "anonymous",     
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
