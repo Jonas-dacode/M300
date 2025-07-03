@@ -1,126 +1,136 @@
-# Website auf Azure
+# Ventilatoren-Webshop auf Azure
 
 ## Projektübersicht
 
-Ziel ist es, eine öffentlich erreichbare Webseite mit automatisiertem Deployment, täglichem Backup und aktivem Monitoring bereitzustellen. Dies kosteneffizient, wartbar und sicher.
+Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop für Ventilatoren dar. Ziel ist die Bereitstellung einer statischen Website mit dynamischen Funktionen wie Warenkorb und Bestellformular sowie automatisiertem Deployment, Backup und Monitoring.
 
-Die Webseite ist über [Diesen Link](https://red-glacier-049295f03.1.azurestaticapps.net/) erreichbar.
+➡️ **Live-Demo:** [Zur Webanwendung](https://red-glacier-049295f03.1.azurestaticapps.net/)
 
 ---
 
 ## Projektziele
 
-- Deployment einer statischen Webanwendung
-- Nutzung mehrerer Azure-Dienste (Static Web Apps, Blob Storage, Monitoring)
-- Einrichtung eines Backupsystems
-- Vollständiges Monitoring & Alerting
-- Dokumentation der Netzwerktopologie und Infrastruktur
-- CI/CD Prozess mit automatischer Veröffentlichung
-- Benutzerfreundliches, responsives Frontend mit interaktiven Elementen
+- Hosting einer statischen Webanwendung in Azure
+- Serverlose API-Integration mit Azure Functions
+- Speicherung von Bestelldaten in Azure Cosmos DB
+- CI/CD über GitHub Actions bei jedem Push
+- Monitoring & Logging über Azure Monitor
+- Erstellung eines logischen Architekturplans
+- Benutzerfreundliches, responsives Frontend mit Einkaufslogik
 
 ---
 
 ## Technologie-Stack
 
-| Bereich             | Dienst / Tool              |
-|---------------------|----------------------------|
-| Hosting             | Azure Static Web Apps      |
-| CI/CD               | GitHub Actions             |
-| Backup              | Azure Blob Storage + CLI Skript |
-| Monitoring          | Azure Monitor, Alerts      |
-| DNS & Domain        | Azure DNS (optional)       |
-| Frontend            | HTML, CSS, Vanilla JS      |
-| Versionierung       | GitHub                     |
+| Bereich           | Dienst / Tool                      |
+|-------------------|------------------------------------|
+| Hosting           | Azure Static Web Apps              |
+| CI/CD             | GitHub Actions                     |
+| Datenbank         | Azure Cosmos DB (API for NoSQL)    |
+| Monitoring        | Azure Monitor + Application Insights |
+| Backup (optional) | Azure Blob Storage                 |
+| Frontend          | HTML, CSS, JavaScript              |
+| API               | Azure Functions (Node.js)          |
+| Quellcodehosting  | GitHub                             |
 
 ---
 
-## Projektinhalt
+## Projektstruktur
 
-- `/code/` – Webseitenquelle (`index.html`, CSS, JS)
-- `/docs/` – Architekturdiagramme, Netzwerklayout, Sicherheitskonzept
-- `README.md` – Projekteinführung, technische Umsetzung und Bewertung
-
-
----
-## Hauptkomponenten des logischen Netzwerks
-
-**Azure Static Web App** Hostet die statische Webanwendung (HTML, CSS, JavaScript und optional serverlose APIs). Sie stellt die Website für Nutzer bereit und ist das zentraleElement der Architektur.
-
-**Azure SQL Database (Backups)**  Dient zur Speicherung von Inhalten der statischen Website
-
-**Azure Monitor** In Form von Azure Monitor werden Anfragen, Performance, Fehler -Daten monitored und ab bestimmten Grenzwerten medlungen per mail verschickt. 
-
-**GitHub Actions** 
-
-
-
-
-Erweiterungen:
-```
-`.github/workflows/` – Automatisiertes Deployment via GitHub Actions 
-```
+| Ordner / Datei     | Inhalt                                                  |
+|--------------------|---------------------------------------------------------|
+| `/index.html`      | Startseite mit Produktübersicht und Warenkorb           |
+| `/checkout.html`   | Formularseite zur Bestellabgabe                         |
+| `/api/saveOrder/`  | Azure Function zur Speicherung von Bestellungen         |
+| `package.json`     | Abhängigkeiten für Azure Function                       |
+| `.github/workflows/` | GitHub Actions Workflow für CI/CD                    |
+| `/docs/` (optional) | Netzpläne, Architekturdiagramme                         |
+| `README.md`        | Projektbeschreibung und Anleitung                        |
 
 ---
 
-## Funktionen der Webanwendung
+## Hauptkomponenten des Netzwerks
 
-- Produktübersicht mit Beschreibung, Preis, Bild
-- Interaktiver Warenkorb mit Mengenberechnung
-- Dynamisches UI mit JavaScript (z. B. Benachrichtigungen, Summenberechnung)
-- Validierung von Nutzereingaben
-- Responsives Design für mobile & Desktopgeräte
-- Vollständig clientseitig, geeignet für Azure Static Web Apps
+- **Azure Static Web App**  
+  Hostet das statische Frontend und die Azure Function API (`/api/saveOrder`).
+
+- **Azure Cosmos DB (BestellungenDB)**  
+  Persistiert die Bestelldaten als JSON-Dokumente im Container `Bestellungen`.
+
+- **Azure Function (Node.js)**  
+  Verarbeitet `POST`-Requests vom Bestellformular und speichert in Cosmos DB.
+
+- **GitHub Actions**  
+  CI/CD Workflow zur automatischen Bereitstellung bei Änderungen im `main`-Branch.
+
+- **Azure Monitor**  
+  Überwacht Fehler, Verfügbarkeit und Performance der App (Log-Erweiterung möglich).
+
+---
+
+## Web-App-Funktionen
+
+- Produktübersicht mit Bild, Preis, Beschreibung
+- Interaktiver Warenkorb (Add/Remove, Mengenauswahl)
+- Bestellformular mit Validierung
+- Responsive Design für Mobilgeräte & Desktop
+- Speichern von Bestellungen in Cosmos DB
+- Dark-Mode-Unterstützung per Button
+- Feedback nach Bestellabschluss
 
 ---
 
 ## CI/CD & Deployment
 
-- Automatischer Deploy bei jedem Push auf `main`
-- Konfiguration über GitHub Actions (`.yml`)
-- Verwendung des Azure Static Web Apps Deployment Tokens
-- `app_location` auf `code/` gesetzt
+- Trigger: **Push auf `main`**
+- GitHub Actions mit `azure/static-web-apps-deploy@v1`
+- `.yml`-Datei im Workflow-Verzeichnis
 
 ```yaml
-app_location: "code"
-api_location: ""
-output_location: ""
+app_location: "/"
+api_location: "api"
+output_location: "/"
 ```
 
+- Secrets: 
+    - `AZURE_STATIC_WEB_APPS_API_TOKEN` im GitHub-Repo hinterlegt
+
+    - `Conneciton String` der CosmosDB in der API hinterlegt
+
 ---
+
 ## Sicherheitsaspekte
 
-- HTTPS für alle externen Verbindungen (via Azure SWA)
-
-- Keine externen APIs oder benutzerbezogenen Daten im Frontend
-
-- Zugriff auf Azure-Konfigurationen durch GitHub Secrets - geschützt
-
-- Monitoring und Benachrichtigungen für Fehlerfälle aktivierbar
-
-- Speicher-Backup verschlüsselt abgelegt
-
+- **HTTPS-Verbindung** standardmässig aktiviert (über Azure SWA)
+- **Connection Strings** als Umgebungsvariablen gespeichert (COSMOS_DB_CONNECTION_STRING)
+- Keine Speicherung von sensitiven Nutzerdaten im Browser
+- Zugriff auf Backend nur über definierte API-Route (/api/saveOrder)
+- Nur CI/CD-Deployments möglich (kein direkter Zugang)
 
 ---
+
 ## Voraussetzungen
 
-- Microsoft Azure Student-Abonnement
-
+- Microsoft Azure Abonnement (z. B. Azure for Students)
 - GitHub-Konto
+- Azure Static Web App Ressource
+- Cosmos DB
 
-- Azure Static Web App Ressource konfiguriert
+--- 
 
-- GitHub Secrets für API-Token hinterlegt
+## Ausblick/Erweiterungsmöglichkeiten
 
-
----
-## Ausblick & Weiterentwicklung
-
-- Integration eines Kontaktformulars mit Validierung
-
-- Erweiterung um Adminbereich (z. B. mit Static CMS)
-
-- Nutzung von Azure DNS mit benutzerdefinierter Domain
+- Admin-Oberfläche zur Bestellungseinsicht
+- Eigene Domäne nutzen
+- Validierte API-Responses mit Fehlerfeedback
 
 ---
+
 ## Autor
 
+Shala Rony,
+Zivanovic Viktor,
+Ahmed Jonas
+
+M300-Projektarbeit 2025
+Technische Berufsschule Zürich
