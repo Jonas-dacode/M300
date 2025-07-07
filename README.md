@@ -4,7 +4,7 @@
 
 Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop für Ventilatoren dar. Ziel ist die Bereitstellung einer statischen Website mit dynamischen Funktionen wie Warenkorb und Bestellformular sowie automatisiertem Deployment, Backup und Monitoring.
 
-➡️ **Live-Demo:** [Zur Webanwendung](https://red-glacier-049295f03.1.azurestaticapps.net/)
+➡️ **Live-Demo:** [Zur Webanwendung](https://proud-hill-00bd9e103.2.azurestaticapps.net/)
 
 ---
 
@@ -33,6 +33,10 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 | API               | Azure Functions (Node.js)          |
 | Quellcodehosting  | GitHub                             |
 
+
+
+![alt text](M300-Webshop-OnlyFans.png)
+
 ---
 
 ## Projektstruktur
@@ -51,6 +55,8 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 
 ## Hauptkomponenten des Netzwerks
 
+
+
 - **Azure Static Web App**  
   Hostet das statische Frontend und die Azure Function API (`/api/saveOrder`).
 
@@ -65,6 +71,10 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 
 - **Azure Monitor**  
   Überwacht Fehler, Verfügbarkeit und Performance der App (Log-Erweiterung möglich).
+
+![alt text](resource-groups.png)
+
+![alt text](static-web-app.png)
 
 ---
 
