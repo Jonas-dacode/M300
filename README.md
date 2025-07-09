@@ -35,7 +35,7 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 
 
 
-![alt text](M300-Webshop-OnlyFans.png)
+![alt text](NetzwerkplanUltimateForm.drawio.png)
 
 ---
 
@@ -127,6 +127,13 @@ output_location: "/"
 - Cosmos DB
 
 --- 
+
+## Bewertungsmatrix
+
+**Trennung in Microservices:** 
+Die Applikation ist in ein getrenntes Frontend (Webshop) und einen API-Service (/api/saveOrder) aufgeteilt. Die API ist als eigenständiger Node.js-Service mit eigener package.json strukturiert. Damit ist eine funktionale und technische Trennung gegeben
+
+---
 
 ## Ausblick/Erweiterungsmöglichkeiten
 
