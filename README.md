@@ -53,6 +53,9 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 
 ---
 
+
+---
+
 ## Hauptkomponenten des Netzwerks
 
 
@@ -72,9 +75,26 @@ Dieses Projekt stellt einen vollständig in Microsoft Azure gehosteten Webshop f
 - **Azure Monitor**  
   Überwacht Fehler, Verfügbarkeit und Performance der App (Log-Erweiterung möglich).
 
+
 ![alt text](resource-groups.png)
+Resource Gruppe
+
 
 ![alt text](static-web-app.png)
+Statische Web App
+
+![alt text](CosmosDB-Overwiev.png)
+CosmosDB
+
+![alt text](image.png)
+
+---
+
+**Portabilität:**
+
+Das Projekt ist dank seines modularen Aufbaus und der Nutzung standardisierter Webtechnologien hochgradig portabel. Die statische Web-App lässt sich auf verschiedenen Plattformen hosten, Microservices können in andere Function-as-a-Service-Umgebungen migriert werden, und die Datenhaltung kann auf andere NoSQL-Datenbanken übertragen werden. Die Abkopplung von Plattform-spezifischen Features, mit Ausnahme der optionalen Azure-Dienste (z. B. Entra ID), macht das gesamte System flexibel und zukunftssicher.
+
+
 
 ---
 
