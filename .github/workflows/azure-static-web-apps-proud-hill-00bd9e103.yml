@@ -19,20 +19,6 @@ jobs:
         with:
           submodules: true
           lfs: false
-
-      - name: Ensure Dockerfile exists (fallback)
-        run: |
-          mkdir -p infrastructure
-          if [ ! -f infrastructure/Dockerfile ]; then
-            echo "⚠️ Dockerfile nicht gefunden – Erzeuge Fallback..."
-            cat <<EOF > infrastructure/Dockerfile
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EOF
-          else
-            echo "✅ Dockerfile ist bereits vorhanden."
-          fi
-
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -40,9 +26,9 @@ EOF
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_HILL_00BD9E103 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"              # HTML liegt direkt im Root
-          api_location: "api"            # Functions in /api
-          output_location: "/"           # Kein Build notwendig
+          app_location: "/"              # ✅ Root mit deinen HTML-Dateien
+          api_location: "api"            # ✅ Ordner mit Function (z. B. saveOrder)
+          output_location: "/"           # ✅ Kein Build nötig, HTML direkt ausliefern
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -54,4 +40,4 @@ EOF
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_HILL_00BD9E103 }}
-          action: "close"
+          action: "close" 
